@@ -1,0 +1,27 @@
+@use '../utils/functions' as fn;
+@use '../utils/mixins' as mx;
+@use '../utils/extends' as ex;
+
+/* Global */
+body {
+  min-height: 100vh;
+  min-width: fn.pxTorem(320px);
+  font-family: var(--font-family);
+  font-size: var(--font-size-16);
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-title);
+  @extend %texto;
+}
+p {
+  font-weight: var(--font-weight-medium);
+  @extend %texto;
+}

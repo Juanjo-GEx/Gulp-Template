@@ -1,0 +1,71 @@
+@use 'functions' as fn;
+@use 'variables' as var;
+@use 'sass:meta';
+
+@mixin createFlex(
+  $direction: row,
+  $align-axis-main: center,
+  $align-axis-cross: center,
+  $width: 100%
+) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: $align-axis-cross;
+  justify-content: $align-axis-main;
+  width: $width;
+  @content;
+}
+@mixin createGrid($gap: 20px, $rows, $columns, $area: "") {
+  display: grid;
+  grid-template-rows: $rows;
+  grid-template-columns: $columns;
+  gap: fn.pxTorem($gap);
+  @if ($area != "") {
+    @include createArea($area);
+  }
+  @content;
+}
+@mixin createArea($area) {
+  grid-template-areas: $area;
+}
+@mixin createPseudoelement($pseudoelement: before, $content: "") {
+  &::#{$pseudoelement} {
+    position: absolute;
+    content: $content;
+    @content;
+  }
+}
+@mixin addBackground(
+  $img,
+  $position,
+  $repeat,
+  $size,
+  $duration: 1s,
+  $delay: 0.5s
+) {
+  background: {
+    image: url($img);
+    position: $position;
+    repeat: $repeat;
+    size: $size;
+  }
+  animation: {
+    duration: $duration;
+    name: show;
+    delay: $delay;
+  }
+}
+@mixin addImageGradient($direction, $color-start, $color-end, $img, $size) {
+  background: {
+    image: linear-gradient(to $direction, $color-start 0%, $color-end 100%),
+      url($img);
+    position: center;
+    repeat: no-repeat;
+    size: $size;
+  }
+}
+@mixin addBreakpoint($media) {
+  @media screen and (max-width: var.getMedia($media)) {
+    @content;
+  }
+}

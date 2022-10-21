@@ -1,0 +1,79 @@
+@use 'functions' as fn;
+@use 'sass:map';
+
+//1-VARIABLES
+// Colors
+$palette: (
+  "color-primary": #006dc1,
+  "color-secondary": #152864,
+  "color-title": #000,
+  "color-text": #777,
+  "color-button-primary": #006dc1,
+  "color-button-secondary": #152864,
+  "color-background": #fff,
+  "color-border": #152864,
+);
+
+// Tipography
+$font-size-default: fn.pxTorem(16px);
+$typography: (
+  "font-family": (
+    "Montserrat",
+    sans-serif,
+  ),
+  "line-height": fn.pxToem(20px),
+  "font-size": (
+    "16": fn.pxTorem(16px),
+  ),
+  "font-weight": (
+    "bold": 700,
+    "semi-bold": 600,
+    "medium": 500,
+    "normal": 400,
+    "light": 300,
+  ),
+);
+
+// Background images
+$images: ();
+
+//2-MAPEO
+@function getColor($color) {
+  @return map.get($palette, $color);
+}
+@function getTypography($property, $value: null) {
+  @if ($property == "font-family") or ($property == "line-height") {
+    @return map.get($typography, $property);
+  } @else if($property == "font-size") {
+    @return map.get(map.get($typography, $property), $value);
+  } @else if($property == "font-weight") {
+    @return map.get(map.get($typography, $property), $value);
+  } @else {
+    @debug $property "not defined";
+    @return null;
+  }
+}
+@function getImageURL($image) {
+  @return map.get($images, $image);
+}
+
+//3-CUSTOM PROPERTIES
+:root {
+  // Colors
+  --color-primary: #{getColor("color-primary")};
+  --color-secondary: #{getColor("color-secondary")};
+  --color-title: #{getColor("color-title")};
+  --color-text: #{getColor("color-text")};
+  --color-button-primary: #{getColor("color-button-primary")};
+  --color-button-secondary: #{getColor("color-button-secondary")};
+  --color-background: #{getColor("color-background")};
+  --color-border: #{getColor("color-border")};
+  // Tipography
+  --font-family: #{getTypography("font-family")};
+  --font-size-16: #{getTypography("font-size", "16")};
+  --font-weight-bold: #{getTypography("font-weight", "bold")};
+  --font-weight-semi-bold: #{getTypography("font-weight", "semi-bold")};
+  --font-weight-medium: #{getTypography("font-weight", "medium")};
+  --font-weight-normal: #{getTypography("font-weight", "normal")};
+  --font-weight-light: #{getTypography("font-weight", "light")};
+}

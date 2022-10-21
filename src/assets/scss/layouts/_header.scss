@@ -1,0 +1,8 @@
+@use '../utils/functions' as fn;
+@use '../utils/variables' as var;
+@use '../utils/mixins' as mx;
+
+/* Header */
+.header {
+  @include mx.createFlex(column, flex-start, flex-start);
+}
